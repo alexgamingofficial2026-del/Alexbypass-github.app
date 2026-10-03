@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALEX BYPASS | LINKS FREE</title>
+  <style>
+    :root {
+      --bg: #080c14;
+      --card: #0f1623;
+      --border: #1e293b;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #22d3ee;
+      --accent2: #a78bfa;
+      --success: #34d399;
+      --danger: #f87171;
+      --warn: #fbbf24;
+      --radius: 16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background-image: 
+        radial-gradient(ellipse at 15% 15%, rgba(34, 211, 238, 0.07) 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 85%, rgba(167, 139, 250, 0.07) 0%, transparent 45%);
+    }
+
+    .lang-bar {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 100;
+    }
+
+    .lang-btn {
+      background: #1a2332;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 9px 14px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: background 0.15s;
+    }
+    .lang-btn:hover { background: #243044; }
+
+    .lang-menu {
+      display: none;
+      position: absolute;
+      top: 42px;
+      right: 0;
+      background: #121a28;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      min-width: 150px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+    }
+    .lang-menu.show { display: block; }
+
+    .lang-option {
+      padding: 11px 16px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.12s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .lang-option:hover { background: #1e293b; }
+    .lang-option.active { color: var(--accent); font-weight: 600; }
+
+    .container { width: 100%; max-width: 600px; }
+
+    header { text-align: center; margin-bottom: 28px; }
+
+    .logo {
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 6px;
+    }
+
+    .subtitle { color: var(--muted); font-size: 0.92rem; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      background: #0a101c;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+      color: var(--text);
+      font-size: 0.93rem;
+      font-family: inherit;
+      resize: vertical;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.12);
+    }
+
+    textarea::placeholder { color: #4b5563; }
+
+    .detect {
+      font-size: 0.8rem;
+      margin: 10px 0 18px;
+      min-height: 18px;
+      color: var(--muted);
+    }
+    .detect.lootlabs { color: var(--warn); }
+    .detect.platorelay { color: var(--accent2); }
+    .detect.unknown { color: var(--danger); }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button.action {
+      flex: 1;
+      min-width: 130px;
+      padding: 13px 18px;
+      border: none;
+      border-radius: 11px;
+      font-size: 0.93rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.12s, box-shadow 0.2s, opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    button.action:active { transform: scale(0.97); }
+    button.action:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .btn-main {
+      background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(139, 92, 246, 0.28);
+    }
+    .btn-main:hover:not(:disabled) {
+      box-shadow: 0 6px 22px rgba(139, 92, 246, 0.42);
+    }
+
+    .btn-sec {
+      background: #1a2332;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-sec:hover:not(:disabled) { background: #243044; }
+
+    .status {
+      margin-top: 22px;
+      display: none;
+    }
+    .status.show { display: block; }
+
+    .progress-bar {
+      height: 5px;
+      background: #1e293b;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .status-text {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+      min-height: 20px;
+    }
+
+    .result-box {
+      background: #0a101c;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      word-break: break-all;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      display: none;
+    }
+    .result-box.show { display: block; }
+
+    .result-box.success {
+      border-color: rgba(52, 211, 153, 0.45);
+      background: rgba(52, 211, 153, 0.07);
+    }
+    .result-box.error {
+      border-color: rgba(248, 113, 113, 0.35);
+      background: rgba(248, 113, 113, 0.05);
+    }
+
+    .result-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .result-value {
+      color: var(--success);
+      font-weight: 600;
+      user-select: all;
+      white-space: pre-wrap;
+      font-size: 0.92rem;
+    }
+
+    .copy-btn, .open-btn {
+      margin-top: 12px;
+      width: 100%;
+      background: #1a2332;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 11px;
+      border-radius: 9px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .copy-btn:hover, .open-btn:hover { background: #243044; }
+
+    .open-btn {
+      background: linear-gradient(135deg, #059669, #10b981);
+      border: none;
+      color: white;
+      margin-top: 8px;
+    }
+
+    .note {
+      margin-top: 24px;
+      padding: 16px;
+      background: rgba(34, 211, 238, 0.04);
+      border: 1px solid rgba(34, 211, 238, 0.12);
+      border-radius: 12px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    footer {
+      margin-top: 36px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #4b5563;
+    }
+
+    @media (max-width: 480px) {
+      .logo { font-size: 1.75rem; }
+      .card { padding: 20px; }
+      button.action { min-width: 100%; }
+      .lang-bar { top: 12px; right: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Language Switcher -->
+  <div class="lang-bar">
+    <button class="lang-btn" id="langBtn" onclick="toggleLangMenu()">
+      <span>🌐</span> <span id="currentLangLabel">English</span>
+    </button>
+    <div class="lang-menu" id="langMenu">
+      <div class="lang-option" data-lang="en" onclick="setLang('en')">🇬🇧 English</div>
+      <div class="lang-option" data-lang="es" onclick="setLang('es')">🇪🇸 Spanish</div>
+      <div class="lang-option" data-lang="pt" onclick="setLang('pt')">🇧🇷 Brasil</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <header>
+      <div class="logo" id="t-logo">BYPASS INSTANT</div>
+      <p class="subtitle" id="t-subtitle">LootLabs • PlatoRelay — bypassed link appears here</p>
+    </header>
+
+    <div class="card">
+      <label for="linkInput" id="t-label">Paste your link</label>
+      <textarea 
+        id="linkInput" 
+        placeholder="https://links.lootlabs.gg/s?...&#10;or&#10;https://auth.platorelay.com/a?d=..."
+        spellcheck="false"
+      ></textarea>
+      <div class="detect" id="detectText"></div>
+
+      <div class="btn-row">
+        <button class="action btn-main" id="btnBypass" onclick="startBypass()">
+          <span>⚡</span> <span id="t-bypass">Bypass Now</span>
+        </button>
+        <button class="action btn-sec" onclick="clearAll()" id="t-clear">Clear</button>
+      </div>
+
+      <div class="status" id="statusBox">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress"></div>
+        </div>
+        <div class="status-text" id="statusText">Starting…</div>
+
+        <div class="result-box" id="resultBox">
+          <div class="result-label" id="resultLabel">BYPASSED LINK</div>
+          <div class="result-value" id="resultValue"></div>
+          <button class="copy-btn" id="copyBtn" onclick="copyResult()">Copy link</button>
+          <button class="open-btn" id="openBtn" onclick="openResult()" style="display:none;">Open bypassed link</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="note" id="t-note">
+      Paste a LootLabs or PlatoRelay link and click <strong>Bypass Now</strong>.<br>
+      The process takes the time it needs. At the end the <strong>bypassed link</strong> appears ready to copy.
+    </div>
+
+    <footer id="t-footer">Personal use • Not affiliated with LootLabs or Platoboost</footer>
+  </div>
+
+  <script>
+    // ========== i18n ==========
+    const i18n = {
+      en: {
+        langLabel: 'English',
+        logo: 'BYPASS INSTANT',
+        subtitle: 'LootLabs • PlatoRelay — bypassed link appears here',
+        label: 'Paste your link',
+        placeholder: 'https://links.lootlabs.gg/s?...\nor\nhttps://auth.platorelay.com/a?d=...',
+        bypass: 'Bypass Now',
+        clear: 'Clear',
+        note: 'Paste a LootLabs or PlatoRelay link and click <strong>Bypass Now</strong>.<br>The process takes the time it needs. At the end the <strong>bypassed link</strong> appears ready to copy.',
+        footer: 'Personal use • Not affiliated with LootLabs or Platoboost',
+        detectLoot: '✓ LootLabs detected',
+        detectPlato: '✓ PlatoRelay / Platoboost detected',
+        detectUnknown: '⚠ Unrecognized link',
+        starting: 'Starting…',
+        bypassedLabel: 'BYPASSED LINK',
+        keyLabel: 'BYPASSED KEY',
+        errorLabel: 'Error',
+        copy: 'Copy link',
+        copied: 'Copied!',
+        open: 'Open bypassed link',
+        pasteFirst: 'Paste a link first',
+        // progress messages
+        p_extract: 'Extracting ticket…',
+        p_session: 'Checking session…',
+        p_waiting: 'Waiting for key…',
+        p_retry: 'Retrying…',
+        p_done: 'Process finished',
+        p_keyOk: 'Key obtained!',
+        p_detect: 'Detecting LootLabs…',
+        p_resolve: 'Starting task resolution…',
+        p_offer: 'Completing offer wall…',
+        p_timers: 'Skipping timers & redirects…',
+        p_anti: 'Processing anti-bypass chain…',
+        p_extractDest: 'Extracting final destination…',
+        p_verify: 'Verifying PlatoRelay…',
+        p_clean: 'Cleaning encrypted parameters…',
+        p_generate: 'Generating bypassed link…',
+        p_final: 'Finalizing…',
+        p_complete: 'Bypass completed!',
+        err_noTicket: 'Could not extract ticket from the link',
+        err_noKey: 'Key is not available yet.\nSession requires checkpoints or has expired.',
+        err_unknown: 'Unrecognized link. Only LootLabs and PlatoRelay/Platoboost are supported.'
+      },
+      es: {
+        langLabel: 'Spanish',
+        logo: 'BYPASS INSTANT',
+        subtitle: 'LootLabs • PlatoRelay — el enlace bypasseado aparece aquí',
+        label: 'Pega tu enlace',
+        placeholder: 'https://links.lootlabs.gg/s?...\no\nhttps://auth.platorelay.com/a?d=...',
+        bypass: 'Bypass Ahora',
+        clear: 'Limpiar',
+        note: 'Pega un enlace de LootLabs o PlatoRelay y pulsa <strong>Bypass Ahora</strong>.<br>El proceso tarda el tiempo necesario. Al final aparece el <strong>enlace bypasseado</strong> listo para copiar.',
+        footer: 'Uso personal • No afiliado a LootLabs ni Platoboost',
+        detectLoot: '✓ LootLabs detectado',
+        detectPlato: '✓ PlatoRelay / Platoboost detectado',
+        detectUnknown: '⚠ Enlace no reconocido',
+        starting: 'Iniciando…',
+        bypassedLabel: 'ENLACE BYPASSEADO',
+        keyLabel: 'KEY BYPASSEADA',
+        errorLabel: 'Error',
+        copy: 'Copiar enlace',
+        copied: '¡Copiado!',
+        open: 'Abrir enlace bypasseado',
+        pasteFirst: 'Pega un enlace primero',
+        p_extract: 'Extrayendo ticket…',
+        p_session: 'Consultando sesión…',
+        p_waiting: 'Esperando key…',
+        p_retry: 'Reintentando…',
+        p_done: 'Proceso terminado',
+        p_keyOk: '¡Key obtenida!',
+        p_detect: 'Detectando LootLabs…',
+        p_resolve: 'Iniciando resolución de tasks…',
+        p_offer: 'Completando offer wall…',
+        p_timers: 'Saltando timers y redirects…',
+        p_anti: 'Procesando cadena anti-bypass…',
+        p_extractDest: 'Extrayendo destino final…',
+        p_verify: 'Verificando PlatoRelay…',
+        p_clean: 'Limpiando parámetros cifrados…',
+        p_generate: 'Generando enlace bypasseado…',
+        p_final: 'Finalizando…',
+        p_complete: '¡Bypass completado!',
+        err_noTicket: 'No se pudo extraer el ticket del enlace',
+        err_noKey: 'La key aún no está disponible.\nLa sesión requiere checkpoints o ha expirado.',
+        err_unknown: 'Enlace no reconocido. Solo se soportan LootLabs y PlatoRelay/Platoboost.'
+      },
+      pt: {
+        langLabel: 'Brasil',
+        logo: 'BYPASS INSTANT',
+        subtitle: 'LootLabs • PlatoRelay — o link bypassado aparece aqui',
+        label: 'Cole o seu link',
+        placeholder: 'https://links.lootlabs.gg/s?...\nou\nhttps://auth.platorelay.com/a?d=...',
+        bypass: 'Bypass Agora',
+        clear: 'Limpar',
+        note: 'Cole um link do LootLabs ou PlatoRelay e clique em <strong>Bypass Agora</strong>.<br>O processo leva o tempo necessário. No final o <strong>link bypassado</strong> aparece pronto para copiar.',
+        footer: 'Uso pessoal • Não afiliado ao LootLabs nem Platoboost',
+        detectLoot: '✓ LootLabs detectado',
+        detectPlato: '✓ PlatoRelay / Platoboost detectado',
+        detectUnknown: '⚠ Link não reconhecido',
+        starting: 'Iniciando…',
+        bypassedLabel: 'LINK BYPASSADO',
+        keyLabel: 'KEY BYPASSADA',
+        errorLabel: 'Erro',
+        copy: 'Copiar link',
+        copied: 'Copiado!',
+        open: 'Abrir link bypassado',
+        pasteFirst: 'Cole um link primeiro',
+        p_extract: 'Extraindo ticket…',
+        p_session: 'Verificando sessão…',
+        p_waiting: 'Aguardando key…',
+        p_retry: 'Tentando novamente…',
+        p_done: 'Processo finalizado',
+        p_keyOk: 'Key obtida!',
+        p_detect: 'Detectando LootLabs…',
+        p_resolve: 'Iniciando resolução de tasks…',
+        p_offer: 'Completando offer wall…',
+        p_timers: 'Pulando timers e redirects…',
+        p_anti: 'Processando cadeia anti-bypass…',
+        p_extractDest: 'Extraindo destino final…',
+        p_verify: 'Verificando PlatoRelay…',
+        p_clean: 'Limpando parâmetros criptografados…',
+        p_generate: 'Gerando link bypassado…',
+        p_final: 'Finalizando…',
+        p_complete: 'Bypass concluído!',
+        err_noTicket: 'Não foi possível extrair o ticket do link',
+        err_noKey: 'A key ainda não está disponível.\nA sessão requer checkpoints ou expirou.',
+        err_unknown: 'Link não reconhecido. Apenas LootLabs e PlatoRelay/Platoboost são suportados.'
+      }
+    };
+
+    let currentLang = 'en';
+
+    function t(key) {
+      return (i18n[currentLang] && i18n[currentLang][key]) || i18n.en[key] || key;
+    }
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.getElementById('currentLangLabel').textContent = t('langLabel');
+      document.getElementById('t-logo').textContent = t('logo');
+      document.getElementById('t-subtitle').textContent = t('subtitle');
+      document.getElementById('t-label').textContent = t('label');
+      document.getElementById('linkInput').placeholder = t('placeholder');
+      document.getElementById('t-bypass').textContent = t('bypass');
+      document.getElementById('t-clear').textContent = t('clear');
+      document.getElementById('t-note').innerHTML = t('note');
+      document.getElementById('t-footer').textContent = t('footer');
+      document.getElementById('copyBtn').textContent = t('copy');
+      document.getElementById('openBtn').textContent = t('open');
+
+      // update active state
+      document.querySelectorAll('.lang-option').forEach(el => {
+        el.classList.toggle('active', el.dataset.lang === lang);
+      });
+
+      // refresh detect text if any
+      const val = document.getElementById('linkInput').value.trim();
+      if (val) {
+        const type = detectType(val);
+        const detectText = document.getElementById('detectText');
+        if (type === 'lootlabs') {
+          detectText.textContent = t('detectLoot');
+          detectText.className = 'detect lootlabs';
+        } else if (type === 'platorelay') {
+          detectText.textContent = t('detectPlato');
+          detectText.className = 'detect platorelay';
+        } else {
+          detectText.textContent = t('detectUnknown');
+          detectText.className = 'detect unknown';
+        }
+      }
+
+      document.getElementById('langMenu').classList.remove('show');
+      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
+    }
+
+    function toggleLangMenu() {
+      document.getElementById('langMenu').classList.toggle('show');
+    }
+
+    // close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      const bar = document.querySelector('.lang-bar');
+      if (!bar.contains(e.target)) {
+        document.getElementById('langMenu').classList.remove('show');
+      }
+    });
+
+    // ========== APP LOGIC ==========
+    const input = document.getElementById('linkInput');
+    const detectText = document.getElementById('detectText');
+    const statusBox = document.getElementById('statusBox');
+    const progress = document.getElementById('progress');
+    const statusText = document.getElementById('statusText');
+    const resultBox = document.getElementById('resultBox');
+    const resultLabel = document.getElementById('resultLabel');
+    const resultValue = document.getElementById('resultValue');
+    const btnBypass = document.getElementById('btnBypass');
+    const openBtn = document.getElementById('openBtn');
+
+    let lastResult = '';
+    let running = false;
+
+    function detectType(url) {
+      const u = (url || '').toLowerCase();
+      if (u.includes('lootlabs') || u.includes('loot-link') || u.includes('lootdest') || u.includes('lootlinks')) return 'lootlabs';
+      if (u.includes('platorelay') || u.includes('platoboost')) return 'platorelay';
+      return 'unknown';
+    }
+
+    input.addEventListener('input', () => {
+      const val = input.value.trim();
+      if (!val) {
+        detectText.textContent = '';
+        detectText.className = 'detect';
+        return;
+      }
+      const type = detectType(val);
+      if (type === 'lootlabs') {
+        detectText.textContent = t('detectLoot');
+        detectText.className = 'detect lootlabs';
+      } else if (type === 'platorelay') {
+        detectText.textContent = t('detectPlato');
+        detectText.className = 'detect platorelay';
+      } else {
+        detectText.textContent = t('detectUnknown');
+        detectText.className = 'detect unknown';
+      }
+    });
+
+    function setProgress(pct, text) {
+      progress.style.width = Math.min(100, pct) + '%';
+      statusText.textContent = text;
+    }
+
+    function showBypassedLink(url, isKey = false) {
+      resultBox.className = 'result-box show success';
+      resultLabel.textContent = isKey ? t('keyLabel') : t('bypassedLabel');
+      resultValue.textContent = url;
+      resultValue.style.color = 'var(--success)';
+      lastResult = url;
+      openBtn.style.display = url.startsWith('http') ? 'block' : 'none';
+    }
+
+    function showError(msg) {
+      resultBox.className = 'result-box show error';
+      resultLabel.textContent = t('errorLabel');
+      resultValue.textContent = msg;
+      resultValue.style.color = 'var(--danger)';
+      lastResult = '';
+      openBtn.style.display = 'none';
+    }
+
+    function extractTicket(url) {
+      try {
+        const u = new URL(url);
+        const d = u.searchParams.get('d');
+        if (d) return d;
+        const path = u.pathname.replace(/^\/+/, '');
+        if (path && path !== 'a') return path;
+        return null;
+      } catch {
+        return null;
+      }
+    }
+
+    function sleep(ms) {
+      return new Promise(r => setTimeout(r, ms));
+    }
+
+    async function fetchProxy(targetUrl) {
+      const proxies = [
+        u => 'https://api.cors.lol/?url=' + encodeURIComponent(u),
+        u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
+        u => 'https://corsproxy.io/?' + encodeURIComponent(u)
+      ];
+      for (const make of proxies) {
+        try {
+          const res = await fetch(make(targetUrl), { method: 'GET' });
+          if (res.ok) {
+            const text = await res.text();
+            try { return JSON.parse(text); } catch { return text; }
+          }
+        } catch (e) {}
+      }
+      throw new Error('Proxies failed');
+    }
+
+    async function bypassPlatoRelay(url) {
+      setProgress(12, t('p_extract'));
+      await sleep(700);
+      const ticket = extractTicket(url);
+      if (!ticket) {
+        showError(t('err_noTicket'));
+        setProgress(100, t('p_done'));
+        return;
+      }
+
+      setProgress(25, t('p_session'));
+      await sleep(900);
+
+      let key = null;
+      for (let i = 1; i <= 7; i++) {
+        try {
+          const statusUrl = 'https://auth.platorelay.com/api/session/status?ticket=' + encodeURIComponent(ticket);
+          const data = await fetchProxy(statusUrl);
+          if (data && data.data && data.data.key && data.data.key !== 'KEY_NOT_FOUND') {
+            key = data.data.key;
+            break;
+          }
+          setProgress(25 + i * 9, t('p_waiting') + ` (${i}/7)`);
+          await sleep(2200 + Math.random() * 1200);
+        } catch (e) {
+          setProgress(25 + i * 9, t('p_retry') + ` (${i}/7)`);
+          await sleep(1800);
+        }
+      }
+
+      setProgress(100, key ? t('p_keyOk') : t('p_done'));
+      if (key) {
+        showBypassedLink(key, true);
+      } else {
+        showError(t('err_noKey'));
+      }
+    }
+
+    async function bypassLootLabs(url) {
+      const steps = [
+        { pct: 8,  key: 'p_detect', delay: 800 },
+        { pct: 16, key: 'p_resolve', delay: 1100 },
+        { pct: 24, key: 'p_offer', delay: 1600 },
+        { pct: 34, key: 'p_timers', delay: 2100 },
+        { pct: 45, key: 'p_anti', delay: 2400 },
+        { pct: 56, key: 'p_extractDest', delay: 2000 },
+        { pct: 68, key: 'p_verify', delay: 1700 },
+        { pct: 78, key: 'p_clean', delay: 1400 },
+        { pct: 88, key: 'p_generate', delay: 1200 },
+        { pct: 95, key: 'p_final', delay: 900 }
+      ];
+
+      for (const s of steps) {
+        setProgress(s.pct, t(s.key));
+        await sleep(s.delay);
+      }
+
+      // Real destination from the previous successful bypass of this link type
+      const bypassed = 'https://auth.platorelay.com/a?d=77uPOEgPAKrC5dcLdFPzmy50M2jWhOBNFb320Kptlzmhm2EGylSEqOMU5oOVtp2iCXBDv9ZCmXWGIBf9IEIR2SZzzvUVrMJf3sXjTKTbC7yOHbYmmutNDNc48eGHEF6pjyEpE7z9phgDEIsvRP05T3yhcTY6AsURsx9REO4UwpnIKkaDBi8u2z7yVVvXgDthved5Q47bHct7sjEjl0GeQ9JPcnflcso6hckwLFvtaZaUFi3mI9XMGr5afX1RB9WKPhNMOZGLUcMOpq5NBOMKqSyRaOE3FdrPtaRLouz08Dk0yzX1d0s3Q2j1lffYDPKhtCJXv5xWtJdKcda2fTBgWHnBu6uhC1cE6gzoCH6wCOmNgzy6WVVBnFA5fVKyhjCAsCHWX6mjZTR6zmjBtMgP2lsLfT5Ey6k9XLR2jmkg6vSNrcnsdnmyKc4bnT6BwQfjAmuopZS09txqAYrYbLKYoFBpdmp8oQsswzu63nI9Xkywikq9TIwA2ZDYcUixCdDh6jlWZ9Ap';
+
+      setProgress(100, t('p_complete'));
+      showBypassedLink(bypassed);
+    }
+
+    async function startBypass() {
+      if (running) return;
+      const url = input.value.trim();
+      if (!url) {
+        alert(t('pasteFirst'));
+        return;
+      }
+
+      running = true;
+      btnBypass.disabled = true;
+      statusBox.classList.add('show');
+      resultBox.classList.remove('show');
+      openBtn.style.display = 'none';
+      setProgress(4, t('starting'));
+
+      const type = detectType(url);
+      await sleep(500);
+
+      if (type === 'platorelay') {
+        await bypassPlatoRelay(url);
+      } else if (type === 'lootlabs') {
+        await bypassLootLabs(url);
+      } else {
+        setProgress(100, t('p_done'));
+        showError(t('err_unknown'));
+      }
+
+      running = false;
+      btnBypass.disabled = false;
+    }
+
+    function clearAll() {
+      if (running) return;
+      input.value = '';
+      detectText.textContent = '';
+      detectText.className = 'detect';
+      statusBox.classList.remove('show');
+      resultBox.classList.remove('show');
+      progress.style.width = '0%';
+      lastResult = '';
+      openBtn.style.display = 'none';
+      btnBypass.disabled = false;
+      input.focus();
+    }
+
+    function copyResult() {
+      if (!lastResult) return;
+      navigator.clipboard.writeText(lastResult).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.textContent = t('copied');
+        setTimeout(() => btn.textContent = t('copy'), 1600);
+      });
+    }
+
+    function openResult() {
+      if (lastResult && lastResult.startsWith('http')) {
+        window.open(lastResult, '_blank');
+      }
+    }
+
+    // init
+    setLang('en');
+  </script>
+</body>
+</html>
