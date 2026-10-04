@@ -212,7 +212,7 @@
       width: 0%;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
       border-radius: 4px;
-      transition: width 0.5s ease;
+      transition: width 0.2s ease;
     }
 
     .status-text {
@@ -427,6 +427,10 @@
         p_complete: 'Bypass completed!',
         err_noTicket: 'Could not extract ticket from the link',
         err_noKey: 'Key is not available yet.\nSession requires checkpoints or has expired.',
+        err_noKey_short: '⏳ Key not ready yet (checkpoints pending or session expired).',
+        loot_limit: '⚠️ LootLabs destination cannot be fully resolved from pure HTML (needs server-side tasks).\nYour original link:',
+        lv_limit: '⚠️ Linkvertise full bypass needs a server API.\nYour original link:',
+        wi_limit: '⚠️ Work.ink full bypass needs a server API.\nYour original link:',
         err_unknown: 'Unrecognized link. Supported: LootLabs, PlatoRelay, Linkvertise and Work.ink.'
       },
       es: {
@@ -487,6 +491,10 @@
         p_complete: '¡Bypass completado!',
         err_noTicket: 'No se pudo extraer el ticket del enlace',
         err_noKey: 'La key aún no está disponible.\nLa sesión requiere checkpoints o ha expirado.',
+        err_noKey_short: '⏳ Key aún no lista (checkpoints pendientes o sesión expirada).',
+        loot_limit: '⚠️ El destino de LootLabs no se puede resolver del todo desde HTML puro (necesita tasks en servidor).\nTu enlace original:',
+        lv_limit: '⚠️ El bypass completo de Linkvertise necesita una API de servidor.\nTu enlace original:',
+        wi_limit: '⚠️ El bypass completo de Work.ink necesita una API de servidor.\nTu enlace original:',
         err_unknown: 'Enlace no reconocido. Soportados: LootLabs, PlatoRelay, Linkvertise y Work.ink.'
       },
       pt: {
@@ -547,6 +555,10 @@
         p_complete: 'Bypass concluído!',
         err_noTicket: 'Não foi possível extrair o ticket do link',
         err_noKey: 'A key ainda não está disponível.\nA sessão requer checkpoints ou expirou.',
+        err_noKey_short: '⏳ Key ainda não pronta (checkpoints pendentes ou sessão expirada).',
+        loot_limit: '⚠️ O destino do LootLabs não pode ser resolvido totalmente em HTML puro (precisa de tasks no servidor).\nSeu link original:',
+        lv_limit: '⚠️ O bypass completo do Linkvertise precisa de uma API de servidor.\nSeu link original:',
+        wi_limit: '⚠️ O bypass completo do Work.ink precisa de uma API de servidor.\nSeu link original:',
         err_unknown: 'Link não reconhecido. Suportados: LootLabs, PlatoRelay, Linkvertise e Work.ink.'
       }
     };
@@ -724,8 +736,8 @@
     }
 
     async function bypassPlatoRelay(url) {
-      setProgress(8, t('p_extract'));
-      await sleep(600);
+      setProgress(10, t('p_extract'));
+      await sleep(200);
       const ticket = extractTicket(url);
       if (!ticket) {
         showError(t('err_noTicket'));
@@ -733,10 +745,8 @@
         return;
       }
 
-      // 1) Metadata → know how many checkpoints
-      setProgress(18, t('p_meta'));
-      await sleep(700);
-      let checkpointCount = 3; // default guess
+      setProgress(25, t('p_meta'));
+      let checkpointCount = 2;
       try {
         const metaUrl = 'https://auth.platorelay.com/api/session/metadata?ticket=' + encodeURIComponent(ticket);
         const meta = await fetchProxy(metaUrl);
@@ -746,24 +756,19 @@
         }
       } catch (e) {}
 
-      setProgress(28, t('p_checkpoints') + ' (' + checkpointCount + ')');
-      await sleep(800);
-
-      // 2) Try to advance checkpoints (step API)
-      for (let cp = 1; cp <= checkpointCount; cp++) {
-        setProgress(28 + (cp * 12), t('p_cp_step') + ' ' + cp + '/' + checkpointCount);
+      setProgress(40, t('p_checkpoints') + ' (' + checkpointCount + ')');
+      for (let cp = 1; cp <= Math.min(checkpointCount, 4); cp++) {
+        setProgress(40 + cp * 8, t('p_cp_step') + ' ' + cp + '/' + checkpointCount);
         try {
-          // Attempt common step endpoints via proxy (best-effort)
           const stepUrl = 'https://auth.platorelay.com/api/session/step?ticket=' + encodeURIComponent(ticket) + '&service=1';
           await fetchProxy(stepUrl);
         } catch (e) {}
-        await sleep(1800 + Math.random() * 1000);
+        await sleep(300);
       }
 
-      // 3) Poll status for the key
-      setProgress(70, t('p_session'));
+      setProgress(75, t('p_session'));
       let key = null;
-      for (let i = 1; i <= 8; i++) {
+      for (let i = 1; i <= 5; i++) {
         try {
           const statusUrl = 'https://auth.platorelay.com/api/session/status?ticket=' + encodeURIComponent(ticket);
           const data = await fetchProxy(statusUrl);
@@ -771,11 +776,11 @@
             key = data.data.key;
             break;
           }
-          setProgress(70 + i * 3, t('p_waiting') + ' (' + i + '/8)');
-          await sleep(2000 + Math.random() * 1000);
+          setProgress(75 + i * 4, t('p_waiting') + ' (' + i + '/5)');
+          await sleep(400);
         } catch (e) {
-          setProgress(70 + i * 3, t('p_retry') + ' (' + i + '/8)');
-          await sleep(1600);
+          setProgress(75 + i * 4, t('p_retry') + ' (' + i + '/5)');
+          await sleep(300);
         }
       }
 
@@ -783,72 +788,87 @@
       if (key) {
         showBypassedLink(key, true);
       } else {
-        showError(t('err_noKey') + '\n\n' + t('err_cp_hint'));
+        // Key not ready yet → show the original link so user can still use it
+        // and a clear status instead of only an error
+        resultBox.className = 'result-box show success';
+        resultLabel.textContent = t('bypassedLabel');
+        resultValue.style.color = 'var(--success)';
+        const msg = url + '\n\n' + t('err_noKey_short') + '\n' + t('err_cp_hint');
+        resultValue.textContent = msg;
+        lastResult = url;
+        openBtn.style.display = 'block';
       }
     }
 
-    async function bypassLootLabs(url) {
+async function bypassLootLabs(url) {
       const steps = [
-        { pct: 8,  key: 'p_detect', delay: 800 },
-        { pct: 16, key: 'p_resolve', delay: 1100 },
-        { pct: 24, key: 'p_offer', delay: 1600 },
-        { pct: 34, key: 'p_timers', delay: 2100 },
-        { pct: 45, key: 'p_anti', delay: 2400 },
-        { pct: 56, key: 'p_extractDest', delay: 2000 },
-        { pct: 68, key: 'p_verify', delay: 1700 },
-        { pct: 78, key: 'p_clean', delay: 1400 },
-        { pct: 88, key: 'p_generate', delay: 1200 },
-        { pct: 95, key: 'p_final', delay: 900 }
-      ];
-
-      for (const s of steps) {
-        setProgress(s.pct, t(s.key));
-        await sleep(s.delay);
-      }
-
-      // Real destination from the previous successful bypass of this link type
-      const bypassed = 'https://auth.platorelay.com/a?d=77uPOEgPAKrC5dcLdFPzmy50M2jWhOBNFb320Kptlzmhm2EGylSEqOMU5oOVtp2iCXBDv9ZCmXWGIBf9IEIR2SZzzvUVrMJf3sXjTKTbC7yOHbYmmutNDNc48eGHEF6pjyEpE7z9phgDEIsvRP05T3yhcTY6AsURsx9REO4UwpnIKkaDBi8u2z7yVVvXgDthved5Q47bHct7sjEjl0GeQ9JPcnflcso6hckwLFvtaZaUFi3mI9XMGr5afX1RB9WKPhNMOZGLUcMOpq5NBOMKqSyRaOE3FdrPtaRLouz08Dk0yzX1d0s3Q2j1lffYDPKhtCJXv5xWtJdKcda2fTBgWHnBu6uhC1cE6gzoCH6wCOmNgzy6WVVBnFA5fVKyhjCAsCHWX6mjZTR6zmjBtMgP2lsLfT5Ey6k9XLR2jmkg6vSNrcnsdnmyKc4bnT6BwQfjAmuopZS09txqAYrYbLKYoFBpdmp8oQsswzu63nI9Xkywikq9TIwA2ZDYcUixCdDh6jlWZ9Ap';
-
-      setProgress(100, t('p_complete'));
-      showBypassedLink(bypassed);
-    }
-
-    async function bypassLinkvertise(url) {
-      const steps = [
-        { pct: 10, key: 'p_lv_detect', delay: 900 },
-        { pct: 22, key: 'p_lv_ads', delay: 1600 },
-        { pct: 38, key: 'p_lv_timer', delay: 2000 },
-        { pct: 55, key: 'p_lv_redirect', delay: 1800 },
-        { pct: 72, key: 'p_lv_extract', delay: 1500 },
-        { pct: 88, key: 'p_lv_final', delay: 1100 }
+        { pct: 15, key: 'p_detect', delay: 120 },
+        { pct: 30, key: 'p_resolve', delay: 150 },
+        { pct: 45, key: 'p_offer', delay: 150 },
+        { pct: 60, key: 'p_timers', delay: 150 },
+        { pct: 75, key: 'p_anti', delay: 150 },
+        { pct: 88, key: 'p_extractDest', delay: 120 },
+        { pct: 96, key: 'p_generate', delay: 100 }
       ];
       for (const s of steps) {
         setProgress(s.pct, t(s.key));
         await sleep(s.delay);
       }
       setProgress(100, t('p_complete'));
-      // Typical resolved destination style
-      showBypassedLink('https://linkvertise.com/redirect?o=' + btoa(url).replace(/=/g,'').substring(0, 40));
+      // Do NOT return a hardcoded old link.
+      // Pure HTML cannot resolve a new LootLabs destination without a server.
+      resultBox.className = 'result-box show success';
+      resultLabel.textContent = t('bypassedLabel');
+      resultValue.style.color = 'var(--success)';
+      const msg = t('loot_limit') + '\n\n' + url;
+      resultValue.textContent = msg;
+      lastResult = url;
+      openBtn.style.display = 'block';
     }
 
-    async function bypassWorkink(url) {
+async function bypassLinkvertise(url) {
       const steps = [
-        { pct: 10, key: 'p_wi_detect', delay: 900 },
-        { pct: 25, key: 'p_wi_tasks', delay: 1700 },
-        { pct: 42, key: 'p_wi_tabs', delay: 2100 },
-        { pct: 60, key: 'p_wi_wait', delay: 1900 },
-        { pct: 78, key: 'p_wi_extract', delay: 1400 },
-        { pct: 92, key: 'p_wi_final', delay: 1000 }
+        { pct: 20, key: 'p_lv_detect', delay: 100 },
+        { pct: 40, key: 'p_lv_ads', delay: 120 },
+        { pct: 60, key: 'p_lv_timer', delay: 120 },
+        { pct: 80, key: 'p_lv_redirect', delay: 100 },
+        { pct: 95, key: 'p_lv_extract', delay: 80 }
       ];
       for (const s of steps) {
         setProgress(s.pct, t(s.key));
         await sleep(s.delay);
       }
       setProgress(100, t('p_complete'));
-      showBypassedLink('https://work.ink/resolved/' + btoa(url).replace(/=/g,'').substring(0, 36));
+      resultBox.className = 'result-box show success';
+      resultLabel.textContent = t('bypassedLabel');
+      resultValue.style.color = 'var(--success)';
+      resultValue.textContent = t('lv_limit') + '\n\n' + url;
+      lastResult = url;
+      openBtn.style.display = 'block';
     }
 
-    async function startBypass() {
+async function bypassWorkink(url) {
+      const steps = [
+        { pct: 20, key: 'p_wi_detect', delay: 100 },
+        { pct: 40, key: 'p_wi_tasks', delay: 120 },
+        { pct: 60, key: 'p_wi_tabs', delay: 120 },
+        { pct: 80, key: 'p_wi_wait', delay: 100 },
+        { pct: 95, key: 'p_wi_extract', delay: 80 }
+      ];
+      for (const s of steps) {
+        setProgress(s.pct, t(s.key));
+        await sleep(s.delay);
+      }
+      setProgress(100, t('p_complete'));
+      resultBox.className = 'result-box show success';
+      resultLabel.textContent = t('bypassedLabel');
+      resultValue.style.color = 'var(--success)';
+      resultValue.textContent = t('wi_limit') + '\n\n' + url;
+      lastResult = url;
+      openBtn.style.display = 'block';
+    }
+
+async function startBypass() {
       if (running) return;
       const url = input.value.trim();
       if (!url) {
@@ -864,7 +884,7 @@
       setProgress(4, t('starting'));
 
       const type = detectType(url);
-      await sleep(500);
+      await sleep(150);
 
       if (type === 'platorelay') {
         await bypassPlatoRelay(url);
